@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+
+    </h:head>
+    <h:body>
+        <h2>Please fill the form</h2>
+        <h:form id="userForm">    		
+            <h:outputLabel for="firstname">First Name</h:outputLabel>  
+
+            <h:inputText id="firstname" size="10" value="#{bean.firstName}" required="true" 
+                         requiredMessage="First name is required"/><br/>
+
+
+            <h:outputLabel for="midname">Middle  Name</h:outputLabel>  
+            <h:inputText size="10" value="#{bean.midName}" required="false" 
+                         />
+            <br/>
+
+
+            <h:outputLabel for="midname">Last  Name</h:outputLabel>  
+            <h:inputText size="10" value="#{bean.lastName}" required="true" 
+                         requiredMessage="Last name is required"/>
+            <br/>
+
+
+
+
+            <h:outputLabel for="depart">Department</h:outputLabel>  
+            <h:selectOneMenu id="depart" required="true" requiredMessage="Faculty is required"
+                             value="#{bean.faculty}">  
+                <f:selectItem itemValue="Management" itemLabel="Management" />  
+                <f:selectItem itemValue="Science and Technology" itemLabel="Science and Technology" />  
+                <f:ajax render="render"/>
+            </h:selectOneMenu>
+            <br/>
+
+            <h:panelGroup id="render" >
+                <h:outputLabel for="program">Program:</h:outputLabel>
+                <h:selectOneMenu value="#{bean.program}" rendered="#{bean.faculty == 'Management'}" required="true" requiredMessage="Program is required" >
+                    <f:selectItem itemValue="BBA" itemLabel="BBA"/>
+                    <f:selectItem itemValue="BBS" itemLabel="BBS"/>
+                </h:selectOneMenu>
+                <h:selectOneMenu value="#{bean.program}" rendered="#{bean.faculty == 'Science and Technology'}" required="true" >
+                    <f:selectItem itemValue="BE.Comp" itemLabel="BE.Comp"/>
+                    <f:selectItem itemValue="BCA" itemLabel="BCA"/>
+                </h:selectOneMenu>
+            </h:panelGroup>
+            <br/>
+            <h:commandButton value="Submit" action="#{bean.addAction}" /><br/>
+
+
+        </h:form>
+
+        <h:form>
+
+ ...............................................................................
+ <h2> OUTPUT DATATABLE</h2>
+
+            <h:dataTable value="#{bean.studentList}" var="s">
+                <h:column>
+
+                    <f:facet name = "header">First name</f:facet>
+                    <h:inputText value="#{s.firstName}" size="10" rendered="#{s.edit}" 
+                                 required="true" requiredMessage="First name is required"/>
+
+                    <h:outputText value="#{s.firstName}" rendered="#{not s.edit}" />
+
+                </h:column>
+
+
+
+                <h:column>
+
+                    <f:facet name = "header">Middle name</f:facet>
+                    <h:inputText value="#{s.midName}" size="10" rendered="#{s.edit}" />
+
+                    <h:outputText value="#{s.midName}" rendered="#{not s.edit}" />
+
+                </h:column>
+
+                <h:column>
+
+                    <f:facet name="header">Last Name</f:facet>
+                    <h:inputText value="#{s.lastName}" size="20"  rendered="#{s.edit}" 
+                                 required="true" requiredMessage="Last name is required"/>
+
+                    <h:outputText value="#{s.lastName}" rendered="#{not s.edit}" />
+
+                </h:column>
+                <h:column>
+
+                    <f:facet name="header">Faculty</f:facet>
+                    <h:inputText value="#{s.faculty}" size="20"  rendered="#{s.edit}" 
+                                 required="true" requiredMessage="Faculty is required"/>
+
+                    <h:outputText value="#{s.faculty}" rendered="#{not s.edit}" />
+
+                </h:column>
+                <h:column>
+
+                    <f:facet name="header">Program</f:facet>
+                    <h:inputText value="#{s.program}" size="20"  rendered="#{s.edit}"
+                                 required="true" requiredMessage="Program is required"/>
+
+                    <h:outputText value="#{s.program}" rendered="#{not s.edit}" />
+
+                </h:column>
+
+
+
+                <h:column>
+
+                    <f:facet name="header">Action</f:facet>
+                    <h:commandLink value="Edit" action="#{bean.editAction(s)}" rendered="#{not s.edit}" />
+                    <h:commandLink value="Delete" action="#{bean.deleteAction(s)}" />
+
+
+                </h:column>
+
+            </h:dataTable>
+            <h:commandButton value="Save Changes" action="#{bean.saveAction}" />
+
+        </h:form>
+    </h:body>
+</html>
+
+
+
